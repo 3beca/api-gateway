@@ -1,2 +1,2 @@
-const hello = 'world';
-export default hello;
+import apiGateway from "./api-gateway";
+export default apiGateway;

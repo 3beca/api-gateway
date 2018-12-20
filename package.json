@@ -4,7 +4,7 @@
   "description": "simple api gateway library",
   "main": "build/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build": "babel src -d build",
     "prepublish": "npm run build",
     "lint": "eslint src"
@@ -18,7 +18,7 @@
     "gateway",
     "sew"
   ],
-  "author": "Juanjo Franco Peñaranda, Francesco Rivola",
+  "author": "Juanjo Franco, Francesco Rivola",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/SensorEveryWhere/sew-api-gateway/issues"
@@ -29,6 +29,11 @@
     "babel-eslint": "^10.0.1",
     "babel-preset-env": "^1.7.0",
     "eslint": "^5.10.0",
-    "eslint-plugin-filenames": "^1.3.2"
+    "eslint-plugin-filenames": "^1.3.2",
+    "jest": "^23.6.0"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "request": "^2.88.0"
   }
 }
