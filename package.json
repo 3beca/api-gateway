@@ -2,7 +2,7 @@
   "name": "sew-api-gateway",
   "version": "0.0.1",
   "description": "simple api gateway library",
-  "main": "index.js",
+  "main": "build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel src -d build",
