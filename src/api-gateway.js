@@ -1,9 +1,10 @@
 import express from "express";
 
-function apiGateway(options) {
+function apiGateway() {
 
     const app = express();
     const middlewares = {};
+    let initialized = false;
 
     return {
         registerMiddleware(name, middleware) {
@@ -19,8 +20,13 @@ function apiGateway(options) {
             middlewares[name] = middleware;
         },
         initialize(options) {
-            // initialize api-gateway
-            return app;
+            if (initialized) {
+                throw new Error("Initialize cannot be executed more than once");
+            }
+            initialized = true;
+            return function listen(port, callbackDone) {
+                return app.listen(port, callbackDone);
+            };
         }
     };
 };
