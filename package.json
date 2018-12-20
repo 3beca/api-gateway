@@ -1,0 +1,24 @@
+{
+  "name": "sew-api-gateway",
+  "version": "0.0.1",
+  "description": "simple api gateway library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SensorEveryWhere/sew-api-gateway.git"
+  },
+  "keywords": [
+    "api",
+    "gateway",
+    "sew"
+  ],
+  "author": "Juanjo Franco Peñaranda, Francesco Rivola",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SensorEveryWhere/sew-api-gateway/issues"
+  },
+  "homepage": "https://github.com/SensorEveryWhere/sew-api-gateway#readme"
+}
