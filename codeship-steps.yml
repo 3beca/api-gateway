@@ -18,10 +18,6 @@
   service: app
   command: npm run publish-code-coverage
 
-- name: npm set publish auth
-  service: app
-  command: echo -e "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-
 - name: npm publish
   service: app
-  command: npm publish --access=public
+  command: npm-publish.sh
