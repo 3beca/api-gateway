@@ -20,5 +20,5 @@
 
 - name: npm publish
   service: app
-  command: necho "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && pm publish
-  tag: ^(release)
+  command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && npm publish
+  tag: ^(v)
