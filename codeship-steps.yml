@@ -21,4 +21,4 @@
 - name: npm publish
   service: app
   command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && npm publish
-  tag: ^(v)
+  tag: ^v
