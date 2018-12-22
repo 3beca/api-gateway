@@ -1,6 +1,6 @@
 {
   "name": "@sensoreverywhere/sew-api-gateway",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "simple api gateway library",
   "main": "build/index.js",
   "scripts": {
