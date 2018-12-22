@@ -20,4 +20,4 @@
 
 - name: npm publish
   service: app
-  command: /bin/sh ./var/www/npm-publish.sh
+  command: ./npm-publish.sh
