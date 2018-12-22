@@ -13,3 +13,7 @@
 - name: npm test
   service: app
   command: npm test
+
+- name: npm publish code coverage
+  service: app
+  command: npm run publish-code-coverage
