@@ -1,0 +1,15 @@
+- name: npm install
+  service: app
+  command: npm install
+
+- name: npm build
+  service: app
+  command: npm run build
+
+- name: npm lint
+  service: app
+  command: npm run lint
+  
+- name: npm test
+  service: app
+  command: npm test
