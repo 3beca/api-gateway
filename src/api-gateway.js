@@ -29,5 +29,5 @@ function apiGateway() {
             };
         }
     };
-};
+}
 export default apiGateway;
