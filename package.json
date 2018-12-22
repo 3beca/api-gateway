@@ -7,7 +7,7 @@
     "test": "jest",
     "build": "babel src -d build",
     "prepublish": "npm run build",
-    "lint": "eslint src",
+    "lint": "eslint src test",
     "publish-code-coverage": "codecov"
   },
   "repository": {
