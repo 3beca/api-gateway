@@ -1,5 +1,5 @@
 import express from "express";
-import fs from "fs";
+import mappingLoader from "./mapping-loader";
 
 function apiGateway() {
 
@@ -25,17 +25,8 @@ function apiGateway() {
                 throw new Error("Initialize cannot be executed more than once");
             }
 
-            const mappingFilePath = options && options.mappingFilePath || "./mapping.json";
-            if (!fs.existsSync(mappingFilePath)) {
-                throw new Error(`Cannot find json mapping file at path ${mappingFilePath}`);
-            }
-            const mappingFile = fs.readFileSync(mappingFilePath, "utf8");
-            try {
-                JSON.parse(mappingFile);
-            }
- catch (error) {
-                throw new Error(`Cannot parse mapping.json file: ${error}`);
-            }
+            mappingLoader.load(options);
+
             initialized = true;
             return function listen(port, callbackDone) {
                 return app.listen(port, callbackDone);
