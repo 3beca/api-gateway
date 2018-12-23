@@ -3,3 +3,8 @@ src/
 test/
 .eslintrc
 .babelrc
+env.encrypted
+codeship-services.yml
+codeship-steps.yml
+npm-publish.sh
+jest.config.js
