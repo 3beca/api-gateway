@@ -38,5 +38,16 @@ describe("api-gateway", () => {
             const act = () => app.initialize();
             expect(act).toThrowError("Initialize cannot be executed more than once");
         });
+
+        it("should return listen function to start server", () => {
+            const app = apiGateway();
+            const listen = app.initialize();
+            const server = listen(3000, () => {
+                expect(server.address().port).toBe(3000);
+                server.close(() => {
+                    expect(true).toBe(true);
+                });
+            });
+        });
     });
 });
