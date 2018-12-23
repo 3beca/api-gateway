@@ -1,5 +1,5 @@
-import apiGateway from "../src/api-gateway";
-import request from "request";
+import apiGateway from "../src/index";
+import "./express-mock";
 
 describe("api-gateway", () => {
 
@@ -67,31 +67,13 @@ describe("api-gateway", () => {
             expect(act).toThrowError("Cannot parse mapping.json file: SyntaxError: Unexpected token I in JSON at position 0");
         });
 
-        it.skip("should register global middleware", (done) => {
-            const app = apiGateway();
-            app.registerMiddleware("410", (req, res) => {
-                res.status(410).end();
-            });
-            const options = {
-                mappingFilePath: "./test/fixture/mapping-with-middleware.json"
-            };
-            const listen = app.initialize(options);
-            const server = listen(3001, () => {
-                console.log("ready");
-                setTimeout(() => request.get("http://localhost:3001/some-url", (err, response) => {
-                    console.log("server response");
-                    expect(response.status).toBe(404);
-                    server.close(() => done());
-                }), 1000);
-            });
-        });
-
         it("should return listen function to start server", (done) => {
             const app = apiGateway();
             const options = {
                 mappingFilePath: "./test/fixture/mapping.json"
             };
             const listen = app.initialize(options);
+            expect(typeof listen).toBe("function");
             const server = listen(3000, () => {
                 expect(server.address().port).toBe(3000);
                 server.close(() => done());
