@@ -1,6 +1,5 @@
 import express from "express";
 import fs from "fs";
-import { dirname } from "path";
 
 function apiGateway() {
 
@@ -32,7 +31,7 @@ function apiGateway() {
             }
             const mappingFile = fs.readFileSync(mappingFilePath, "utf8");
             try {
-            const mappings = JSON.parse(mappingFile);
+                JSON.parse(mappingFile);
             }
  catch (error) {
                 throw new Error(`Cannot parse mapping.json file: ${error}`);
