@@ -11,6 +11,9 @@ const middlewaresContainer = {
             throw new Error(`Middleware ${name} is already registered`);
         }
         middlewares[name] = middleware;
+    },
+    get(name) {
+        return middlewares[name];
     }
 };
 export default middlewaresContainer;

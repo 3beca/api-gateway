@@ -4,7 +4,6 @@ import middlewaresContainer from "./middlewares-container";
 
 function apiGateway() {
 
-    const app = express();
     let initialized = false;
 
     return {
@@ -16,7 +15,15 @@ function apiGateway() {
                 throw new Error("Initialize cannot be executed more than once");
             }
 
-            mappingLoader.load(options);
+            const mapping = mappingLoader.load(options);
+
+            const app = express();
+            if (mapping.middlewares) {
+                mapping.middlewares.forEach(middleware => {
+                    app.use(middlewaresContainer.get(middleware));       
+                });
+            }
+            // TODO: validate mapping json file
 
             initialized = true;
             return app.listen;
