@@ -34,14 +34,44 @@ describe("api-gateway", () => {
 
         it("should throw an error if called twice", () => {
             const app = apiGateway();
-            app.initialize();
-            const act = () => app.initialize();
+            const options = {
+                mappingFilePath: "./test/fixture/mapping.json"
+            };
+            app.initialize(options);
+            const act = () => app.initialize(options);
             expect(act).toThrowError("Initialize cannot be executed more than once");
+        });
+
+        it("should throw an error if json mapping file does not exist", () => {
+            const app = apiGateway();
+            const options = {
+                mappingFilePath: "./no-existing-mapping-file.json"
+            };
+            const act = () => app.initialize(options);
+            expect(act).toThrowError("Cannot find json mapping file at path ./no-existing-mapping-file.json");
+        });
+        
+        it("should use mappingFilePath ./mapping.json as convention if not provided in options object", () => {
+            const app = apiGateway();
+            const act = () => app.initialize();
+            expect(act).toThrowError("Cannot find json mapping file at path ./mapping.json");
+        });
+
+        it("should throw an error if mapping file cannot be parsed to a valid json", () => {
+            const app = apiGateway();
+            const options = {
+                mappingFilePath: "./test/fixture/invalid-json-mapping.txt"
+            };
+            const act = () => app.initialize(options);
+            expect(act).toThrowError("Cannot parse mapping.json file: SyntaxError: Unexpected token I in JSON at position 0");
         });
 
         it("should return listen function to start server", () => {
             const app = apiGateway();
-            const listen = app.initialize();
+            const options = {
+                mappingFilePath: "./test/fixture/mapping.json"
+            };
+            const listen = app.initialize(options);
             const server = listen(3000, () => {
                 expect(server.address().port).toBe(3000);
                 server.close(() => {
