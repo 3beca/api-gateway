@@ -77,9 +77,9 @@ describe("api-gateway", () => {
             };
             const listen = app.initialize(options);
             const server = listen(3001, () => {
-                console.log('ready');
+                console.log("ready");
                 setTimeout(() => request.get("http://localhost:3001/some-url", (err, response) => {
-                    console.log('server response');
+                    console.log("server response");
                     expect(response.status).toBe(404);
                     server.close(() => done());
                 }), 1000);
