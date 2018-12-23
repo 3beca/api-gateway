@@ -3,11 +3,11 @@ jest.mock("express", () => () => {
         listen: (port, callback) => {
             setTimeout(callback, 0);
             return {
-                address: () => { return { port } },
+                address: () => { return { port }; },
                 close: (callback) => {
                     setTimeout(callback, 0);
                 } 
-            }
+            };
         }
-    }
+    };
 });
