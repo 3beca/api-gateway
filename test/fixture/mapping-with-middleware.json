@@ -1,5 +1,5 @@
 {
     "version": 1,
-    "middlewares": ["410"],
+    "middlewares": ["a", "b", "c"],
     "mappings": []
 }

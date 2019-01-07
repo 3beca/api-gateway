@@ -5,6 +5,7 @@ import middlewaresContainer from "./middlewares-container";
 function apiGateway() {
 
     let initialized = false;
+    let expressApp;
 
     return {
         registerMiddleware(name, middleware) {
@@ -17,16 +18,20 @@ function apiGateway() {
 
             const mapping = mappingLoader.load(options);
 
-            const app = express();
-            if (mapping.middlewares) {
-                mapping.middlewares.forEach(middleware => {
-                    app.use(middlewaresContainer.get(middleware));       
-                });
-            }
             // TODO: validate mapping json file
 
+            expressApp = express();
+            if (mapping.middlewares) {
+                mapping.middlewares.forEach(middleware => {
+                    expressApp.use(middlewaresContainer.get(middleware));       
+                });
+            }
+
             initialized = true;
-            return app.listen;
+            return expressApp.listen;
+        },
+        getInternalExpressApp() {
+            return expressApp;
         }
     };
 }

@@ -8,6 +8,7 @@ jest.mock("express", () => () => {
                     setTimeout(callback, 0);
                 } 
             };
-        }
+        },
+        use: jest.fn()
     };
 });

@@ -1,7 +1,11 @@
-import apiGateway from "../src/index";
 import "./express-mock";
+import apiGateway from "../src/index";
 
 describe("api-gateway", () => {
+
+    beforeEach(() => {
+        jest.resetModules();
+    });
 
     describe("registerMiddleware()", () => {
 
@@ -65,6 +69,28 @@ describe("api-gateway", () => {
             };
             const act = () => app.initialize(options);
             expect(act).toThrowError("Cannot parse mapping.json file: SyntaxError: Unexpected token I in JSON at position 0");
+        });
+
+        it("should call express app.use to register global middleware if defined", () => {
+            const app = apiGateway();
+            const a = () => {};
+            const b = () => {};
+            const c = () => {};
+            
+            app.registerMiddleware("a", a);
+            app.registerMiddleware("b", b);
+            app.registerMiddleware("c", c);
+            
+            const options = {
+                mappingFilePath: "./test/fixture/mapping-with-middleware.json"
+            };
+            app.initialize(options);
+
+            expect(app.getInternalExpressApp().use.mock.calls).toEqual([
+                [a], // first call
+                [b], // second call,
+                [c] // third call
+            ]);
         });
 
         it("should return listen function to start server", (done) => {
