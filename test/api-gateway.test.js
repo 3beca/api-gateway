@@ -1,5 +1,6 @@
 import "./express-mock";
 import apiGateway from "../src/index";
+import express from "express";
 
 describe("api-gateway", () => {
 
@@ -72,7 +73,8 @@ describe("api-gateway", () => {
         });
 
         it("should call express app.use to register global middleware if defined", () => {
-            const app = apiGateway();
+            const expressApp = express();
+            const app = apiGateway(expressApp);
             const a = () => {};
             const b = () => {};
             const c = () => {};
@@ -86,7 +88,7 @@ describe("api-gateway", () => {
             };
             app.initialize(options);
 
-            expect(app.getInternalExpressApp().use.mock.calls).toEqual([
+            expect(expressApp.use.mock.calls).toEqual([
                 [a], // first call
                 [b], // second call,
                 [c] // third call
