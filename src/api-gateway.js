@@ -75,7 +75,7 @@ function apiGateway(expressApp) {
                             routePath, 
                             middlewaresFuncs, 
                             requestHandler({
-                                proxyUri,
+                                uri: proxyUri,
                                 method,
                                 customHeaders
                             }));
@@ -83,7 +83,7 @@ function apiGateway(expressApp) {
                     default:
                         throw new Error(`Api Gateway does not support ${method} method`);
                 }
-                debug(`Registered route ${method} ${routePath} - ${middlewaresNames}`);
+                debug(`Registered route ${method} ${routePath} - ${middlewaresNames} - ${proxyUri}`);
                 
             });
         });

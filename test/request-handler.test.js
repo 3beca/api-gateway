@@ -4,6 +4,10 @@ import request from "request";
 
 describe("request-handler", () => {
 
+    beforeEach(() => {
+        jest.resetModules();
+    });
+    
     it("should proxy request", () => {
         const onRequest = requestHandler({
             uri: "http://example.org",
