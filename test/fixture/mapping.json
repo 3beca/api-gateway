@@ -4,13 +4,14 @@
         "X-Api-Gateway": "api-gateway"
     },
     "middlewares": [],
-    "mappings": [
+    "services": [
         {
+            "name": "auth",
             "host": "http://127.0.0.1",
             "port": "3000",
+            "middlewares": ["b", "a"],
             "basePath": "/auth",
-            "middlewares": [],
-            "redirects": [
+            "mappings": [
                 {
                     "path": "/login",
                     "method": "POST",

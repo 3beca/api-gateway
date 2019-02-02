@@ -5,10 +5,11 @@ import middlewaresContainer from "./middlewares-container";
 function apiGateway(expressApp) {
 
     let initialized = false;
+    const middlewares = middlewaresContainer();
 
     return {
         registerMiddleware(name, middleware) {
-            middlewaresContainer.set(name, middleware);
+            middlewares.set(name, middleware);
         },
         initialize(options) {
             if (initialized) {
@@ -22,9 +23,15 @@ function apiGateway(expressApp) {
             const app = expressApp || express();
             if (mapping.middlewares) {
                 mapping.middlewares.forEach(middleware => {
-                    app.use(middlewaresContainer.get(middleware));       
+                    app.use(middlewares.get(middleware));       
                 });
             }
+
+            mapping.services.forEach(service => {
+                service.middlewares.forEach(middleware => {
+                    app.use(service.basePath, middlewares.get(middleware));       
+                });
+            });
 
             initialized = true;
             return app.listen;
