@@ -1,6 +1,5 @@
 import "./express-mock";
 import apiGateway from "../src/index";
-import requestHandler from "../src/request-handler";
 import express from "express";
 
 describe("api-gateway", () => {
