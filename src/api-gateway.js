@@ -2,6 +2,7 @@ import express from "express";
 import mappingLoader from "./mapping-loader";
 import middlewaresContainer from "./middlewares-container";
 import debug from "./debug";
+import requestHandler from "./request-handler";
 
 function apiGateway(expressApp) {
 
@@ -25,6 +26,7 @@ function apiGateway(expressApp) {
             const app = expressApp || express();
             
             initializeMiddlewares(app, mapping);
+            initializeRoutingMethods(app, mapping);
 
             initialized = true;
             return app.listen;
@@ -35,7 +37,7 @@ function apiGateway(expressApp) {
         if (mapping.middlewares) {
             mapping.middlewares.forEach(middleware => {
                 app.use(middlewares.get(middleware));
-                debug(`use global middleware ${middleware}`);    
+                debug(`Registered global middleware ${middleware}`);    
             });
         }
 
@@ -43,22 +45,45 @@ function apiGateway(expressApp) {
             if (service.middlewares) {
                 service.middlewares.forEach(middleware => {
                     app.use(service.basePath, middlewares.get(middleware));
-                    debug(`use service middleware ${middleware} - ${service.basePath}`);       
+                    debug(`Registered service middleware ${middleware} - route ${service.basePath}`);       
                 }); 
             }
+        });
+    }
 
-            if (!service.mappings) { 
-                return;
-            }
-            service.mappings.forEach(mapping => {
-                if (!mapping.middlewares) { 
-                    return;
+    function initializeRoutingMethods(app, mapping) {
+        const services = mapping.services || [];
+        const customHeaders = mapping.headers;
+        services.forEach(service => {
+            const mappings = service.mappings || [];
+            mappings.forEach(mapping => {
+                const { host, port, basePath } = service;
+                const { path, method } = mapping;
+                const proxyUri = `${host}:${port}${path}`;
+                const routePath = basePath + path;
+                const middlewaresNames = mapping.middlewares || [];
+                const middlewaresFuncs = middlewaresNames.map(m => middlewares.get(m));
+                switch (method) {
+                    case "GET":
+                    case "POST":
+                    case "DELETE":
+                    case "PUT":
+                    case "PATCH":
+                    case "OPTIONS":
+                        app[method.toLowerCase()](
+                            routePath, 
+                            middlewaresFuncs, 
+                            requestHandler({
+                                proxyUri,
+                                method,
+                                customHeaders
+                            }));
+                        break;
+                    default:
+                        console.warn("method " + method + " it is not supported");
                 }
-                mapping.middlewares.forEach(middleware => {
-                    const path = service.basePath + mapping.path; 
-                    app.use(path, middlewares.get(middleware));  
-                    debug(`use service middleware ${middleware} - ${path}`);
-                });                      
+                debug(`Registered route ${method} ${routePath} - ${middlewaresNames}`);
+                
             });
         });
     }

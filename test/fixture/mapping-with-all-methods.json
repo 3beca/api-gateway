@@ -1,0 +1,57 @@
+{
+    "version": 1,
+    "headers": {
+        "X-Api-Gateway": "api-gateway"
+    },
+    "services": [
+        {
+            "name": "auth",
+            "host": "http://127.0.0.1",
+            "port": "3000",
+            "basePath": "/auth",
+            "mappings": [
+                {
+                    "path": "/login",
+                    "method": "POST",
+                    "middlewares": ["a"]
+                }
+            ]
+        },
+        {
+            "name": "todo",
+            "host": "http://127.0.0.1",
+            "port": "3001",
+            "basePath": "/todo",
+            "mappings": [
+                {
+                    "path": "/items",
+                    "method": "POST"
+                },
+                {
+                    "path": "/items",
+                    "method": "GET",
+                    "middlewares": ["b", "c"]
+                },
+                {
+                    "path": "/items/:id",
+                    "method": "PUT",
+                    "middlewares": ["a", "b", "c"]
+                },
+                {
+                    "path": "/items/:id",
+                    "method": "PATCH",
+                    "middlewares": ["c"]
+                },
+                {
+                    "path": "/items/:id",
+                    "method": "DELETE",
+                    "middlewares": ["c", "a"]
+                },
+                {
+                    "path": "/items",
+                    "method": "OPTIONS"
+                }
+            ]
+        }
+    ]
+}

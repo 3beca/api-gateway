@@ -1,5 +1,6 @@
 import "./express-mock";
 import apiGateway from "../src/index";
+import requestHandler from "../src/request-handler";
 import express from "express";
 
 describe("api-gateway", () => {
@@ -118,8 +119,7 @@ describe("api-gateway", () => {
             ]);
         });
 
-        
-        it("should call express app.use to register path level middlewares if defined", () => {
+        it("should call express app.options/get/post/put/path to register mapped methods with its middlewares if defined", () => {
             const expressApp = express();
             const app = apiGateway(expressApp);
             const a = () => {};
@@ -131,14 +131,35 @@ describe("api-gateway", () => {
             app.registerMiddleware("c", c);
             
             const options = {
-                mappingFilePath: "./test/fixture/mapping-with-path-middlewares.json"
+                mappingFilePath: "./test/fixture/mapping-with-all-methods.json"
             };
             app.initialize(options);
 
-            expect(expressApp.use.mock.calls).toEqual([
-                ["/auth/login", a], // first call
-                ["/auth/register", b], // second call
-            ]);
+            expect(JSON.stringify(expressApp.post.mock.calls)).toEqual(
+                JSON.stringify([
+                ["/auth/login", [a], requestHandler()],
+                ["/todo/items", [], requestHandler()]
+            ]));
+            expect(JSON.stringify(expressApp.get.mock.calls)).toEqual(
+                JSON.stringify([
+                ["/todo/items", [b, c], requestHandler()]
+            ]));
+            expect(JSON.stringify(expressApp.put.mock.calls)).toEqual(
+                JSON.stringify([
+                ["/todo/items/:id", [a, b, c], requestHandler()]
+            ]));
+            expect(JSON.stringify(expressApp.patch.mock.calls)).toEqual(
+                JSON.stringify([
+                ["/todo/items/:id", [c], requestHandler()]
+            ]));
+            expect(JSON.stringify(expressApp.delete.mock.calls)).toEqual(
+                JSON.stringify([
+                ["/todo/items/:id", [c, a], requestHandler()]
+            ]));
+            expect(JSON.stringify(expressApp.options.mock.calls)).toEqual(
+                JSON.stringify([
+                ["/todo/items", [], requestHandler()]
+            ]));
         });
 
         it("should return listen function to start server", (done) => {

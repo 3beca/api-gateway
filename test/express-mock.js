@@ -9,6 +9,12 @@ jest.mock("express", () => () => {
                 } 
             };
         },
-        use: jest.fn()
+        use: jest.fn(),
+        post: jest.fn(),
+        get: jest.fn(),
+        options: jest.fn(),
+        put: jest.fn(),
+        patch: jest.fn(),
+        delete: jest.fn()
     };
 });
