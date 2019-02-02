@@ -16,6 +16,6 @@ function middlewaresContainer() {
         get(name) {
             return middlewares[name];
         }
-    }
-};
+    };
+}
 export default middlewaresContainer;
