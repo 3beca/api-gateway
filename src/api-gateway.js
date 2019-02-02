@@ -1,6 +1,7 @@
 import express from "express";
 import mappingLoader from "./mapping-loader";
 import middlewaresContainer from "./middlewares-container";
+import debug from "./debug";
 
 function apiGateway(expressApp) {
 
@@ -10,6 +11,7 @@ function apiGateway(expressApp) {
     return {
         registerMiddleware(name, middleware) {
             middlewares.set(name, middleware);
+            debug(`Registered middleware ${name}`);
         },
         initialize(options) {
             if (initialized) {
@@ -32,14 +34,16 @@ function apiGateway(expressApp) {
     function initializeMiddlewares(app, mapping) {
         if (mapping.middlewares) {
             mapping.middlewares.forEach(middleware => {
-                app.use(middlewares.get(middleware));       
+                app.use(middlewares.get(middleware));
+                debug(`use global middleware ${middleware}`);    
             });
         }
 
         mapping.services.forEach(service => {
             if (service.middlewares) {
                 service.middlewares.forEach(middleware => {
-                    app.use(service.basePath, middlewares.get(middleware));       
+                    app.use(service.basePath, middlewares.get(middleware));
+                    debug(`use service middleware ${middleware} - ${service.basePath}`);       
                 }); 
             }
 
@@ -51,7 +55,9 @@ function apiGateway(expressApp) {
                     return;
                 }
                 mapping.middlewares.forEach(middleware => {
-                    app.use(service.basePath + mapping.path, middlewares.get(middleware));  
+                    const path = service.basePath + mapping.path; 
+                    app.use(path, middlewares.get(middleware));  
+                    debug(`use service middleware ${middleware} - ${path}`);
                 });                      
             });
         });
