@@ -3,7 +3,6 @@
     "headers": {
         "X-Api-Gateway": "api-gateway"
     },
-    "middlewares": [],
     "services": [
         {
             "name": "auth",
@@ -14,15 +13,20 @@
             "mappings": [
                 {
                     "path": "/login",
-                    "method": "POST",
-                    "middlewares": []
+                    "method": "POST"
                 },
                 {
                     "path": "/register",
-                    "method": "POST",
-                    "middlewares": []
+                    "method": "POST"
                 }
             ]
+        },
+        {
+            "name": "todo",
+            "host": "http://127.0.0.1",
+            "port": "3001",
+            "basePath": "/todo",
+            "middlewares": ["c"]
         }
     ]
 }

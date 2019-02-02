@@ -114,6 +114,7 @@ describe("api-gateway", () => {
             expect(expressApp.use.mock.calls).toEqual([
                 ["/auth", b], // first call
                 ["/auth", a], // second call
+                ["/todo", c], // second call
             ]);
         });
 

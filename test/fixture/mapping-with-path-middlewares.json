@@ -3,13 +3,11 @@
     "headers": {
         "X-Api-Gateway": "api-gateway"
     },
-    "middlewares": [],
     "services": [
         {
             "name": "auth",
             "host": "http://127.0.0.1",
             "port": "3000",
-            "middlewares": [],
             "basePath": "/auth",
             "mappings": [
                 {
