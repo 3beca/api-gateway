@@ -21,21 +21,40 @@ function apiGateway(expressApp) {
             // TODO: validate mapping json file
 
             const app = expressApp || express();
-            if (mapping.middlewares) {
-                mapping.middlewares.forEach(middleware => {
-                    app.use(middlewares.get(middleware));       
-                });
-            }
-
-            mapping.services.forEach(service => {
-                service.middlewares.forEach(middleware => {
-                    app.use(service.basePath, middlewares.get(middleware));       
-                });
-            });
+            
+            initializeMiddlewares(app, mapping);
 
             initialized = true;
             return app.listen;
         }
     };
+
+    function initializeMiddlewares(app, mapping) {
+        if (mapping.middlewares) {
+            mapping.middlewares.forEach(middleware => {
+                app.use(middlewares.get(middleware));       
+            });
+        }
+
+        mapping.services.forEach(service => {
+            if (service.middlewares) {
+                service.middlewares.forEach(middleware => {
+                    app.use(service.basePath, middlewares.get(middleware));       
+                }); 
+            }
+
+            if (!service.mappings) { 
+                return;
+            }
+            service.mappings.forEach(mapping => {
+                if (!mapping.middlewares) { 
+                    return;
+                }
+                mapping.middlewares.forEach(middleware => {
+                    app.use(service.basePath + mapping.path, middlewares.get(middleware));  
+                });                      
+            });
+        });
+    }
 }
 export default apiGateway;

@@ -84,7 +84,7 @@ describe("api-gateway", () => {
             app.registerMiddleware("c", c);
             
             const options = {
-                mappingFilePath: "./test/fixture/mapping-with-middleware.json"
+                mappingFilePath: "./test/fixture/mapping-with-global-middlewares.json"
             };
             app.initialize(options);
 
@@ -107,13 +107,36 @@ describe("api-gateway", () => {
             app.registerMiddleware("c", c);
             
             const options = {
-                mappingFilePath: "./test/fixture/mapping.json"
+                mappingFilePath: "./test/fixture/mapping-with-service-middlewares.json"
             };
             app.initialize(options);
 
             expect(expressApp.use.mock.calls).toEqual([
                 ["/auth", b], // first call
                 ["/auth", a], // second call
+            ]);
+        });
+
+        
+        it("should call express app.use to register path level middlewares if defined", () => {
+            const expressApp = express();
+            const app = apiGateway(expressApp);
+            const a = () => {};
+            const b = () => {};
+            const c = () => {};
+            
+            app.registerMiddleware("a", a);
+            app.registerMiddleware("b", b);
+            app.registerMiddleware("c", c);
+            
+            const options = {
+                mappingFilePath: "./test/fixture/mapping-with-path-middlewares.json"
+            };
+            app.initialize(options);
+
+            expect(expressApp.use.mock.calls).toEqual([
+                ["/auth/login", a], // first call
+                ["/auth/register", b], // second call
             ]);
         });
 
