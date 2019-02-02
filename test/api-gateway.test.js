@@ -135,31 +135,44 @@ describe("api-gateway", () => {
             };
             app.initialize(options);
 
-            expect(JSON.stringify(expressApp.post.mock.calls)).toEqual(
-                JSON.stringify([
-                ["/auth/login", [a], requestHandler()],
-                ["/todo/items", [], requestHandler()]
-            ]));
-            expect(JSON.stringify(expressApp.get.mock.calls)).toEqual(
-                JSON.stringify([
-                ["/todo/items", [b, c], requestHandler()]
-            ]));
-            expect(JSON.stringify(expressApp.put.mock.calls)).toEqual(
-                JSON.stringify([
-                ["/todo/items/:id", [a, b, c], requestHandler()]
-            ]));
-            expect(JSON.stringify(expressApp.patch.mock.calls)).toEqual(
-                JSON.stringify([
-                ["/todo/items/:id", [c], requestHandler()]
-            ]));
-            expect(JSON.stringify(expressApp.delete.mock.calls)).toEqual(
-                JSON.stringify([
-                ["/todo/items/:id", [c, a], requestHandler()]
-            ]));
-            expect(JSON.stringify(expressApp.options.mock.calls)).toEqual(
-                JSON.stringify([
-                ["/todo/items", [], requestHandler()]
-            ]));
+            const postCalls = expressApp.post.mock.calls;
+            expect(postCalls.length).toEqual(2, "post calls should be 2");
+            const [ firstPostCallFirstParameter, firstPostCallSecondParameter] = postCalls[0];
+            expect(firstPostCallFirstParameter).toEqual("/auth/login");
+            expect(firstPostCallSecondParameter).toEqual([a]);
+            const [ secondPostCallFirstParameter, secondPostCallSecondParameter] = postCalls[1];
+            expect(secondPostCallFirstParameter).toEqual("/todo/items");
+            expect(secondPostCallSecondParameter).toEqual([]);
+
+            const getCalls = expressApp.get.mock.calls;
+            expect(getCalls.length).toEqual(1, "get calls should be 1");
+            const [ firstGetCallFirstParameter, firstGetCallSecondParameter] = getCalls[0];
+            expect(firstGetCallFirstParameter).toEqual("/todo/items");
+            expect(firstGetCallSecondParameter).toEqual([b, c]);
+
+            const putCalls = expressApp.put.mock.calls;
+            expect(putCalls.length).toEqual(1, "put calls should be 1");
+            const [ firstPutCallFirstParameter, firstPutCallSecondParameter] = putCalls[0];
+            expect(firstPutCallFirstParameter).toEqual("/todo/items/:id");
+            expect(firstPutCallSecondParameter).toEqual([a, b, c]);
+            
+            const patchCalls = expressApp.patch.mock.calls;
+            expect(patchCalls.length).toEqual(1, "patch calls should be 1");
+            const [ firstPatchCallFirstParameter, firstPatchCallSecondParameter] = patchCalls[0];
+            expect(firstPatchCallFirstParameter).toEqual("/todo/items/:id");
+            expect(firstPatchCallSecondParameter).toEqual([c]);
+            
+            const deleteCalls = expressApp.delete.mock.calls;
+            expect(deleteCalls.length).toEqual(1, "delete calls should be 1");
+            const [ firstDeleteCallFirstParameter, firstDeleteCallSecondParameter] = deleteCalls[0];
+            expect(firstDeleteCallFirstParameter).toEqual("/todo/items/:id");
+            expect(firstDeleteCallSecondParameter).toEqual([c, a]);
+            
+            const optionsCalls = expressApp.options.mock.calls;
+            expect(optionsCalls.length).toEqual(1, "options calls should be 1");
+            const [ firstOptionsCallFirstParameter, firstOptionsCallSecondParameter] = optionsCalls[0];
+            expect(firstOptionsCallFirstParameter).toEqual("/todo/items");
+            expect(firstOptionsCallSecondParameter).toEqual([]);
         });
 
         it("should throw an error if mapping an unsupported method", () => {
