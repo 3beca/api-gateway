@@ -2,7 +2,7 @@ import request from "request";
 
 function requestHandler(options) {
     const { uri, method, customHeaders} = options;
-    return function onRequest(req, res, next) {
+    return function onRequest(req, res) {
         const rreq = request({
             uri,
             method,
