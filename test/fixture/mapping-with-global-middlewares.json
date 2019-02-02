@@ -1,5 +1,4 @@
 {
     "version": 1,
-    "middlewares": ["a", "b", "c"],
-    "services": []
+    "middlewares": ["a", "b", "c"]
 }

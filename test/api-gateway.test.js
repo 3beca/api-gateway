@@ -162,6 +162,15 @@ describe("api-gateway", () => {
             ]));
         });
 
+        it("should throw an error if mapping an unsupported method", () => {
+            const app = apiGateway();
+            const options = {
+                mappingFilePath: "./test/fixture/mapping-with-unsupported-method.json"
+            };
+            const act = () => app.initialize(options);
+            expect(act).toThrowError("Api Gateway does not support HEAD method");
+        });
+
         it("should return listen function to start server", (done) => {
             const app = apiGateway();
             const options = {

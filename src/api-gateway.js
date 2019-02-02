@@ -41,7 +41,8 @@ function apiGateway(expressApp) {
             });
         }
 
-        mapping.services.forEach(service => {
+        const services = mapping.services || [];
+        services.forEach(service => {
             if (service.middlewares) {
                 service.middlewares.forEach(middleware => {
                     app.use(service.basePath, middlewares.get(middleware));
@@ -80,7 +81,7 @@ function apiGateway(expressApp) {
                             }));
                         break;
                     default:
-                        console.warn("method " + method + " it is not supported");
+                        throw new Error(`Api Gateway does not support ${method} method`);
                 }
                 debug(`Registered route ${method} ${routePath} - ${middlewaresNames}`);
                 
