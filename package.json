@@ -1,5 +1,5 @@
 {
-  "name": "@sensoreverywhere/sew-api-gateway",
+  "name": "@tribeca/api-gateway",
   "version": "0.0.12",
   "description": "simple api gateway library",
   "main": "build/index.js",
@@ -11,19 +11,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SensorEveryWhere/sew-api-gateway.git"
+    "url": "git+https://github.com/3beca/api-gateway.git"
   },
   "keywords": [
     "api",
     "gateway",
-    "sew"
+    "tribeca"
   ],
   "author": "Juanjo Franco, Francesco Rivola",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/SensorEveryWhere/sew-api-gateway/issues"
+    "url": "https://github.com/3beca/api-gateway/issues"
   },
-  "homepage": "https://github.com/SensorEveryWhere/sew-api-gateway#readme",
+  "homepage": "https://github.com/3beca/api-gateway#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-eslint": "^10.0.1",
