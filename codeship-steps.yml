@@ -21,4 +21,4 @@
 - name: npm publish
   service: app
   command: /bin/sh ./npm-publish.sh
-  tag: "^v.*$"
+  tag: ^v.*$
