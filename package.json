@@ -1,6 +1,6 @@
 {
   "name": "@tribeca/api-gateway",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "simple api gateway library",
   "main": "build/index.js",
   "scripts": {
