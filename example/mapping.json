@@ -1,0 +1,23 @@
+{
+    "version": 1,
+    "headers": {
+        "X-Api-Gateway": "api-gateway"
+    },
+    "middlewares": ["cors"],
+    "services": [
+        {
+            "name": "test",
+            "host": "http://127.0.0.1",
+            "port": "3001",
+            "basePath": "/subpath",
+            "middlewares": [],
+            "mappings": [
+                {
+                    "path": "/test",
+                    "method": "GET",
+                    "middlewares": []
+                }
+            ]
+        }
+    ]
+}

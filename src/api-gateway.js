@@ -29,7 +29,7 @@ function apiGateway(expressApp) {
             initializeRoutingMethods(app, mapping);
 
             initialized = true;
-            return app.listen;
+            return app.listen.bind(app);
         }
     };
 
