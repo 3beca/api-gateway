@@ -60,7 +60,7 @@ function apiGateway(expressApp) {
             mappings.forEach(mapping => {
                 const { host, port, basePath } = service;
                 const { path, method } = mapping;
-                const proxyUri = `${host}:${port}${path}`;
+                const proxyUri = `${resolveHost(host)}:${resolvePort(port)}${path}`;
                 const routePath = basePath + path;
                 const middlewaresNames = mapping.middlewares || [];
                 const middlewaresFuncs = middlewaresNames.map(m => middlewares.get(m));
@@ -87,6 +87,20 @@ function apiGateway(expressApp) {
                 
             });
         });
+    }
+
+    function resolvePort(port) {
+        if (isNaN(port)) {
+            return process.env[port];
+        }
+        return port;
+    }
+
+    function resolveHost(host) {
+        if (!host.startsWith("http")) {
+            return process.env[host];
+        }
+        return host;
     }
 }
 export default apiGateway;

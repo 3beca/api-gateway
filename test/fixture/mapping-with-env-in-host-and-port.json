@@ -1,0 +1,21 @@
+{
+    "version": 1,
+    "headers": {
+        "X-Api-Gateway": "api-gateway"
+    },
+    "services": [
+        {
+            "name": "auth",
+            "host": "AUTH_HOST",
+            "port": "AUTH_PORT",
+            "basePath": "/auth",
+            "mappings": [
+                {
+                    "path": "/login",
+                    "method": "GET",
+                    "middlewares": []
+                }
+            ]
+        }
+    ]
+}

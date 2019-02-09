@@ -1,11 +1,14 @@
 import "./express-mock";
+import "./request-handler-mock";
 import apiGateway from "../src/index";
 import express from "express";
+import requestHandler from "../src/request-handler";
 
 describe("api-gateway", () => {
 
     beforeEach(() => {
-        jest.resetModules();
+        jest.clearAllMocks()
+            .resetModules();
     });
 
     describe("registerMiddleware()", () => {
@@ -172,6 +175,84 @@ describe("api-gateway", () => {
             const [ firstOptionsCallFirstParameter, firstOptionsCallSecondParameter] = optionsCalls[0];
             expect(firstOptionsCallFirstParameter).toEqual("/todo/items");
             expect(firstOptionsCallSecondParameter).toEqual([]);
+
+            expect(requestHandler.mock.calls).toEqual([
+                [{
+                    customHeaders: {
+                        "X-Api-Gateway": "api-gateway"
+                    },
+                    method: "POST",
+                    uri: "http://127.0.0.1:3000/login"
+                }],
+                [{
+                    customHeaders: {
+                        "X-Api-Gateway": "api-gateway"
+                    },
+                    method: "POST",
+                    uri: "http://127.0.0.1:3001/items"
+                }],
+                [{
+                    customHeaders: {
+                        "X-Api-Gateway": "api-gateway"
+                    },
+                    method: "GET",
+                    uri: "http://127.0.0.1:3001/items"
+                }],
+                [{
+                    customHeaders: {
+                        "X-Api-Gateway": "api-gateway"
+                    },
+                    method: "PUT",
+                    uri: "http://127.0.0.1:3001/items/:id"
+                }],
+                [{
+                    customHeaders: {
+                        "X-Api-Gateway": "api-gateway"
+                    },
+                    method: "PATCH",
+                    uri: "http://127.0.0.1:3001/items/:id"
+                }],
+                [{
+                    customHeaders: {
+                        "X-Api-Gateway": "api-gateway"
+                    },
+                    method: "DELETE",
+                    uri: "http://127.0.0.1:3001/items/:id"
+                }],
+                [{
+                    customHeaders: {
+                        "X-Api-Gateway": "api-gateway"
+                    },
+                    method: "OPTIONS",
+                    uri: "http://127.0.0.1:3001/items"
+                }]
+            ]);
+        });
+
+        it("should call request handler with host and port resolved from ENV variables", () => {
+            process.env.AUTH_HOST = "https://auth.com";
+            process.env.AUTH_PORT = "443";
+            
+            const expressApp = express();
+            const app = apiGateway(expressApp);
+
+            const options = {
+                mappingFilePath: "./test/fixture/mapping-with-env-in-host-and-port.json"
+            };
+            app.initialize(options);
+
+            const getCalls = expressApp.get.mock.calls;
+            expect(getCalls.length).toEqual(1, "get calls should be 1");
+            const [ firstGetCallFirstParameter, firstGetCallSecondParameter] = getCalls[0];
+            expect(firstGetCallFirstParameter).toEqual("/auth/login");
+            expect(firstGetCallSecondParameter).toEqual([]);
+            expect(requestHandler).toBeCalledWith({
+                customHeaders: {
+                    "X-Api-Gateway": "api-gateway"
+                },
+                method: "GET",
+                uri: "https://auth.com:443/login"
+            });
         });
 
         it("should throw an error if mapping an unsupported method", () => {
