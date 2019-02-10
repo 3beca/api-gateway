@@ -230,7 +230,8 @@ describe("api-gateway", () => {
         });
 
         it("should call request handler with host and port resolved from ENV variables", () => {
-            process.env.AUTH_HOST = "https://auth.com";
+            process.env.AUTH_PROTOCOL = "https";
+            process.env.AUTH_HOST = "auth.com";
             process.env.AUTH_PORT = "443";
             
             const expressApp = express();

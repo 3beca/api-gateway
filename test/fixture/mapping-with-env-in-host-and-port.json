@@ -6,6 +6,7 @@
     "services": [
         {
             "name": "auth",
+            "protocol": "AUTH_PROTOCOL",
             "host": "AUTH_HOST",
             "port": "AUTH_PORT",
             "basePath": "/auth",

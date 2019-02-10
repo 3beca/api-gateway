@@ -6,7 +6,8 @@
     "services": [
         {
             "name": "auth",
-            "host": "http://127.0.0.1",
+            "protocol": "http",
+            "host": "127.0.0.1",
             "port": "3000",
             "basePath": "/auth",
             "mappings": [
@@ -19,7 +20,8 @@
         },
         {
             "name": "todo",
-            "host": "http://127.0.0.1",
+            "protocol": "http",
+            "host": "127.0.0.1",
             "port": "3001",
             "basePath": "/todo",
             "mappings": [
