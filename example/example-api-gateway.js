@@ -22,6 +22,6 @@ appBehindApiGateway.listen(3001, function() {
 
     const port = process.PORT || 3000;
     listen(port, function() {
-        console.log(`Server listening at port ${port}`);
+        console.log(`Api Gateway listening at port ${port}`);
     });
 });

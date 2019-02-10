@@ -46,7 +46,8 @@ Where mapping.json is
     "services": [
         {
             "name": "test",
-            "host": "http://127.0.0.1",
+            "protocol": "http",
+            "host": "127.0.0.1",
             "port": "3001",
             "basePath": "/subpath",
             "middlewares": [],
