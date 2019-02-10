@@ -11,6 +11,7 @@ describe("request-handler", () => {
     it("should proxy request", () => {
         const onRequest = requestHandler({
             uri: "http://example.org",
+            basePath: "/subpath",
             method: "POST",
             customHeaders: {
                 "X-Api-Gateway": "1.0"
@@ -18,6 +19,7 @@ describe("request-handler", () => {
         });
         const pipe = jest.fn();
         const req = { 
+            originalUrl: "/subpath/path",
             headers: {
                 "Content-Type": "application/json",
                 "host": "api-gateway"
@@ -37,7 +39,7 @@ describe("request-handler", () => {
         onRequest(req, res, () => {});
 
         expect(request).toBeCalledWith({
-            uri: "http://example.org",
+            uri: "http://example.org/path",
             method: "POST",
             headers: {
                 "X-Api-Gateway": "1.0",

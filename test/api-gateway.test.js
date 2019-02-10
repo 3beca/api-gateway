@@ -182,49 +182,56 @@ describe("api-gateway", () => {
                         "X-Api-Gateway": "api-gateway"
                     },
                     method: "POST",
-                    uri: "http://127.0.0.1:3000/login"
+                    basePath: "/auth",
+                    uri: "http://127.0.0.1:3000"
                 }],
                 [{
                     customHeaders: {
                         "X-Api-Gateway": "api-gateway"
                     },
                     method: "POST",
-                    uri: "http://127.0.0.1:3001/items"
+                    basePath: "/todo",
+                    uri: "http://127.0.0.1:3001"
                 }],
                 [{
                     customHeaders: {
                         "X-Api-Gateway": "api-gateway"
                     },
                     method: "GET",
-                    uri: "http://127.0.0.1:3001/items"
+                    basePath: "/todo",
+                    uri: "http://127.0.0.1:3001"
                 }],
                 [{
                     customHeaders: {
                         "X-Api-Gateway": "api-gateway"
                     },
                     method: "PUT",
-                    uri: "http://127.0.0.1:3001/items/:id"
+                    basePath: "/todo",
+                    uri: "http://127.0.0.1:3001"
                 }],
                 [{
                     customHeaders: {
                         "X-Api-Gateway": "api-gateway"
                     },
                     method: "PATCH",
-                    uri: "http://127.0.0.1:3001/items/:id"
+                    basePath: "/todo",
+                    uri: "http://127.0.0.1:3001"
                 }],
                 [{
                     customHeaders: {
                         "X-Api-Gateway": "api-gateway"
                     },
                     method: "DELETE",
-                    uri: "http://127.0.0.1:3001/items/:id"
+                    basePath: "/todo",
+                    uri: "http://127.0.0.1:3001"
                 }],
                 [{
                     customHeaders: {
                         "X-Api-Gateway": "api-gateway"
                     },
                     method: "OPTIONS",
-                    uri: "http://127.0.0.1:3001/items"
+                    basePath: "/todo",
+                    uri: "http://127.0.0.1:3001"
                 }]
             ]);
         });
@@ -252,7 +259,8 @@ describe("api-gateway", () => {
                     "X-Api-Gateway": "api-gateway"
                 },
                 method: "GET",
-                uri: "https://auth.com:443/login"
+                basePath: "/auth",
+                uri: "https://auth.com:443"
             });
         });
 

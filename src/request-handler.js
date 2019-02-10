@@ -1,10 +1,11 @@
 import request from "request";
 
 function requestHandler(options) {
-    const { uri, method, customHeaders} = options;
+    const { uri, basePath, method, customHeaders} = options;
     return function onRequest(req, res) {
+        const path = req.originalUrl.slice(basePath.length);
         const rreq = request({
-            uri,
+            uri: uri + path,
             method,
             headers: getHeaders(req, customHeaders),
             body: req.body

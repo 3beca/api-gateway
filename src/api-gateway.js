@@ -60,7 +60,7 @@ function apiGateway(expressApp) {
             mappings.forEach(mapping => {
                 const { protocol, host, port, basePath } = service;
                 const { path, method } = mapping;
-                const proxyUri = `${resolveProtocol(protocol)}://${resolveHost(host)}:${resolvePort(port)}${path}`;
+                const uri = getUri(protocol, host, port);
                 const routePath = basePath + path;
                 const middlewaresNames = mapping.middlewares || [];
                 const middlewaresFuncs = middlewaresNames.map(m => middlewares.get(m));
@@ -75,7 +75,8 @@ function apiGateway(expressApp) {
                             routePath, 
                             middlewaresFuncs, 
                             requestHandler({
-                                uri: proxyUri,
+                                uri,
+                                basePath,
                                 method,
                                 customHeaders
                             }));
@@ -83,10 +84,14 @@ function apiGateway(expressApp) {
                     default:
                         throw new Error(`Api Gateway does not support ${method} method`);
                 }
-                debug(`Registered route ${method} ${routePath} - ${middlewaresNames} - ${proxyUri}`);
+                debug(`Registered route ${method} ${routePath} - ${middlewaresNames} - ${uri}`);
                 
             });
         });
+    }
+
+    function getUri(protocol, host, port) {
+        return `${resolveProtocol(protocol)}://${resolveHost(host)}:${resolvePort(port)}`;
     }
 
     function resolvePort(port) {
@@ -98,10 +103,7 @@ function apiGateway(expressApp) {
 
     function resolveHost(host) {
         const hostEnvVariable = process.env[host]; 
-        if (hostEnvVariable) {
-            return hostEnvVariable;
-        }
-        return host;
+        return hostEnvVariable || host;
     }
 
     function resolveProtocol(protocol) {
