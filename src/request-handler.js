@@ -8,7 +8,8 @@ function requestHandler(options) {
             uri: uri + path,
             method,
             headers: getHeaders(req, customHeaders),
-            body: req.body
+            body: req.body,
+            followRedirect: false
         });
         req.pipe(rreq).pipe(res);
     };

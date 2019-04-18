@@ -46,6 +46,7 @@ describe("request-handler", () => {
                 "Content-Type": "application/json",
                 "host": undefined
             },
+            followRedirect: false,
             body: "body",
         });
         expect(req.pipe).toBeCalledWith(rreq);
