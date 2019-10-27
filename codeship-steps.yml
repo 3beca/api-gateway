@@ -1,6 +1,6 @@
-- name: npm install
+- name: npm ci
   service: app
-  command: npm install
+  command: npm ci
 
 - name: npm build
   service: app
