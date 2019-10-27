@@ -1,8 +1,8 @@
 {
   "presets": [["env", {
     "targets": {
-      "node": "8.11.1"
+      "node": "12.13.0"
     }
   }]],
-  "plugins": ["transform-object-rest-spread"]
+  "plugins": []
 }
